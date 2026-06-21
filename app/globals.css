@@ -13,9 +13,23 @@ body {
 }
 
 /* Mobile-first: app shell centers to a phone width, expands on desktop. */
+html {
+  /* Never allow accidental horizontal scrolling of the whole page on phones. */
+  overflow-x: hidden;
+}
 body {
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Hide the scrollbar on horizontally-scrolling strips (e.g. the nav tabs)
+   while keeping them swipeable on touch. */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 
 /* Ensure tap targets meet the 40px minimum (PRD §11.4). */
