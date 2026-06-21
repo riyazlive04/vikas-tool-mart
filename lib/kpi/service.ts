@@ -21,15 +21,18 @@ export async function resolveEntryKpis(dailyEntryId: string, date: Date): Promis
   ]);
   const storedByDef = new Map(stored.map((s) => [s.kpiDefinitionId, s]));
 
-  const rows: ResolvedKpiRow[] = [];
-  for (const def of defs) {
-    const autoValue = def.autoSource
-      ? await computeAutoValue(def.autoSource, { dailyEntryId, date })
-      : null;
+  // Compute all auto values concurrently (was sequential — ~10 round-trips in a
+  // row). Manual KPIs resolve to null without a query.
+  const autoValues = await Promise.all(
+    defs.map((def) =>
+      def.autoSource ? computeAutoValue(def.autoSource, { dailyEntryId, date }) : Promise.resolve(null),
+    ),
+  );
+
+  return defs.map((def, i) => {
     const s = storedByDef.get(def.id) ?? null;
-    rows.push({ def, stored: s, resolved: resolveKpi({ def, stored: s, autoValue }) });
-  }
-  return rows;
+    return { def, stored: s, resolved: resolveKpi({ def, stored: s, autoValue: autoValues[i] }) };
+  });
 }
 
 // How many KPIs are "filled" (for the workbook progress bar): auto KPIs always

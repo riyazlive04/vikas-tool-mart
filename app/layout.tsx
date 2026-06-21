@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import './globals.css';
+
+// Self-hosted Inter (no external Google Fonts request, no layout shift).
+const inter = Inter({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Vikas Tool Mart — CROS',
@@ -26,14 +30,7 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang={locale} className={inter.className}>
       <body className="bg-ink text-white antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
