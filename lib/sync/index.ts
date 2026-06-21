@@ -2,6 +2,7 @@ import { prisma } from '@/lib/db';
 import { getSettings } from '@/lib/settings';
 import { getWooClient, wooErrorMessage, type WooClient } from '@/lib/woo/client';
 import type { WooApiOrder, WooApiCustomer, WooApiReview } from '@/lib/woo/types';
+import { mapOrder, mapCustomer, mapReview } from '@/lib/woo/map';
 import type { SyncType } from '@prisma/client';
 
 // ── Configuration ──
@@ -29,11 +30,6 @@ async function fetchAll<T>(
     if (rows.length < PAGE_SIZE) break;
   }
   return out;
-}
-
-function fullName(first?: string, last?: string, fallback = 'Guest'): string {
-  const name = `${first ?? ''} ${last ?? ''}`.trim();
-  return name || fallback;
 }
 
 /**
@@ -69,28 +65,11 @@ export async function runSync(type: SyncType): Promise<SyncResult> {
   try {
     const orders = await fetchAll<WooApiOrder>(client, 'orders', afterParam);
     for (const o of orders) {
+      const data = mapOrder(o);
       await prisma.wooOrder.upsert({
-        where: { wooId: o.id },
-        update: {
-          number: o.number,
-          customerWooId: o.customer_id || null,
-          customerName: fullName(o.billing?.first_name, o.billing?.last_name),
-          total: Number(o.total) || 0,
-          status: o.status,
-          dateCreated: new Date(o.date_created),
-          itemsJson: (o.line_items ?? []) as object,
-          lastSyncedAt: new Date(),
-        },
-        create: {
-          wooId: o.id,
-          number: o.number,
-          customerWooId: o.customer_id || null,
-          customerName: fullName(o.billing?.first_name, o.billing?.last_name),
-          total: Number(o.total) || 0,
-          status: o.status,
-          dateCreated: new Date(o.date_created),
-          itemsJson: (o.line_items ?? []) as object,
-        },
+        where: { wooId: data.wooId },
+        update: { ...data, lastSyncedAt: new Date() },
+        create: data,
       });
     }
     counts.orders = orders.length;
@@ -103,29 +82,11 @@ export async function runSync(type: SyncType): Promise<SyncResult> {
   try {
     const customers = await fetchAll<WooApiCustomer>(client, 'customers', { role: 'all', orderby: 'registered_date' });
     for (const c of customers) {
-      const orderCount = Number(c.orders_count) || 0;
+      const data = mapCustomer(c);
       await prisma.wooCustomer.upsert({
-        where: { wooId: c.id },
-        update: {
-          name: fullName(c.first_name, c.last_name),
-          phone: c.billing?.phone || null,
-          email: c.email || null,
-          firstOrderDate: c.date_created ? new Date(c.date_created) : null,
-          orderCount,
-          isRepeat: orderCount > 1,
-          totalSpent: Number(c.total_spent) || 0,
-          lastSyncedAt: new Date(),
-        },
-        create: {
-          wooId: c.id,
-          name: fullName(c.first_name, c.last_name),
-          phone: c.billing?.phone || null,
-          email: c.email || null,
-          firstOrderDate: c.date_created ? new Date(c.date_created) : null,
-          orderCount,
-          isRepeat: orderCount > 1,
-          totalSpent: Number(c.total_spent) || 0,
-        },
+        where: { wooId: data.wooId },
+        update: { ...data, lastSyncedAt: new Date() },
+        create: data,
       });
     }
     counts.customers = customers.length;
@@ -138,26 +99,11 @@ export async function runSync(type: SyncType): Promise<SyncResult> {
   try {
     const reviews = await fetchAll<WooApiReview>(client, 'products/reviews', afterParam);
     for (const r of reviews) {
+      const data = mapReview(r);
       await prisma.wooReview.upsert({
-        where: { wooId: r.id },
-        update: {
-          source: 'WOO_CUSREV',
-          rating: Number(r.rating) || 0,
-          reviewerName: r.reviewer || 'Anonymous',
-          productName: r.product_name || null,
-          dateCreated: new Date(r.date_created),
-          text: r.review || null,
-          lastSyncedAt: new Date(),
-        },
-        create: {
-          wooId: r.id,
-          source: 'WOO_CUSREV',
-          rating: Number(r.rating) || 0,
-          reviewerName: r.reviewer || 'Anonymous',
-          productName: r.product_name || null,
-          dateCreated: new Date(r.date_created),
-          text: r.review || null,
-        },
+        where: { wooId: data.wooId },
+        update: { ...data, lastSyncedAt: new Date() },
+        create: data,
       });
     }
     counts.reviews = reviews.length;

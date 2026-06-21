@@ -325,6 +325,7 @@ model Complaint {
   loggedById      String
   loggedBy        User              @relation("ComplaintLoggedBy", fields: [loggedById], references: [id])
   loggedAt        DateTime          @default(now())
+  assignedAt      DateTime? // set when first assigned — feeds DERIVED_COMPLAINTS_ASSIGNED
   resolvedAt      DateTime?
   followUpAt      DateTime?
   resolutionNotes String?
