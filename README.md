@@ -175,6 +175,34 @@ npx tsx tests/_manual/complaints-integration.ts   # complaints feed KPIs
 
 ---
 
+## Deploy to Vercel (free — demo)
+
+Vercel is serverless, so the `node-cron` worker is replaced by a **Vercel Cron**
+job hitting `/api/cron/sync` (configured in `vercel.json`). You need a hosted
+Postgres (Neon free tier works well).
+
+1. **Create a free Postgres** — in the Vercel dashboard: **Storage → Create → Neon**
+   (or Supabase). It auto-adds `DATABASE_URL` to the project. Use the **pooled**
+   connection string for serverless.
+2. **Import the repo** — New Project → import `vikas-tool-mart` from GitHub.
+3. **Add environment variables** (Project → Settings → Environment Variables):
+   - `BETTER_AUTH_SECRET` = `openssl rand -base64 32`
+   - `APP_ENCRYPTION_KEY` = `openssl rand -base64 32`
+   - `BETTER_AUTH_URL` = your production URL, e.g. `https://vikas-tool-mart.vercel.app`
+   - `CRON_SECRET` = any long random string (secures the cron route)
+   - (leave `NEXT_PUBLIC_BETTER_AUTH_URL` unset — the client uses same-origin)
+4. **Deploy.** The build command (in `vercel.json`) runs
+   `prisma migrate deploy && prisma db seed` automatically, so the schema + seed
+   (KPIs/tasks/channels/users) are provisioned on first deploy. Seed credentials
+   print in the build logs.
+5. Sign in with the seed admin and demo the app. (WooCommerce sync stays manual /
+   scheduled; for a demo without a store, run `npm run demo:seed` against the same
+   `DATABASE_URL` to populate sample orders/reviews.)
+
+> **DPDP note:** for production (not just a demo), choose an India region for the
+> database and Vercel function region (`bom1`, Pro plan). For a Hostinger VPS the
+> data stays on one India-hosted box — see below.
+
 ## Deploy to Hostinger VPS (notes)
 
 1. Provision Ubuntu + Docker (or Node 20 + PM2 + managed Postgres).

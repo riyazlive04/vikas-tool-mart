@@ -8,6 +8,7 @@ import { toDateOnly, isoDate } from '@/lib/dates';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60; // PDF/Excel generation headroom on serverless
 
 const PDF = 'application/pdf';
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';

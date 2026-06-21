@@ -5,8 +5,9 @@ const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Emit a minimal standalone server bundle for the Docker runner stage.
-  output: 'standalone',
+  // Standalone output for the Docker runner stage. On Vercel, let the platform
+  // manage output (Vercel sets process.env.VERCEL at build time).
+  output: process.env.VERCEL ? undefined : 'standalone',
   // Server actions are enabled by default in Next 14; raise body limit for exports.
   experimental: {
     serverActions: {
