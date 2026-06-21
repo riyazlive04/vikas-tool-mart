@@ -43,8 +43,8 @@ function Row({ item, first, last, pending, run }: { item: Channel; first: boolea
       <div className="flex items-center justify-between gap-2">
         <span className="min-w-0 truncate text-sm">{item.name} <span className="text-[11px] text-muted">{item.platform}{item.handle ? ` · ${item.handle}` : ''}</span></span>
         <div className="flex flex-shrink-0 items-center gap-1">
-          <button disabled={pending || first} onClick={() => run(reorder('channel', item.id, 'up'), 'Moved')} className="h-8 w-8 rounded bg-neutral-700 disabled:opacity-30">↑</button>
-          <button disabled={pending || last} onClick={() => run(reorder('channel', item.id, 'down'), 'Moved')} className="h-8 w-8 rounded bg-neutral-700 disabled:opacity-30">↓</button>
+          <button aria-label="Move up" disabled={pending || first} onClick={() => run(reorder('channel', item.id, 'up'), 'Moved')} className="h-8 w-8 rounded bg-neutral-700 disabled:opacity-30">↑</button>
+          <button aria-label="Move down" disabled={pending || last} onClick={() => run(reorder('channel', item.id, 'down'), 'Moved')} className="h-8 w-8 rounded bg-neutral-700 disabled:opacity-30">↓</button>
           <button onClick={() => setEdit((v) => !v)} className="min-h-tap rounded bg-neutral-700 px-2 text-xs font-bold">{edit ? 'Close' : 'Edit'}</button>
           <button disabled={pending} onClick={() => run(toggleActive('channel', item.id, !item.active), 'Updated')}
             className={`min-h-tap rounded px-2 text-xs font-bold ${item.active ? 'bg-danger/20 text-danger' : 'bg-success/20 text-success'}`}>{item.active ? 'Off' : 'On'}</button>

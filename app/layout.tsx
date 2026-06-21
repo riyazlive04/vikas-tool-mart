@@ -6,6 +6,8 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Vikas Tool Mart — CROS',
   description: 'Customer & Reputation Operations System',
+  manifest: '/manifest.webmanifest',
+  icons: { icon: '/icon.svg', apple: '/icon.svg' },
 };
 
 export const viewport: Viewport = {

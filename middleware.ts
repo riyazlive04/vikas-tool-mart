@@ -26,6 +26,8 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Protect everything except auth endpoints, Next internals, and static assets.
-  matcher: ['/((?!api/auth|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)'],
+  // Protect pages only. All /api routes enforce their own auth and return JSON,
+  // so they must not be redirected to the HTML login page (e.g. /api/health for
+  // the docker healthcheck, /api/export downloads).
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|webmanifest)$).*)'],
 };
