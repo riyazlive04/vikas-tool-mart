@@ -5,10 +5,10 @@ import { requireRole } from '@/lib/auth/session';
 // WooCommerce settings link out from here.
 const CARDS: Array<{ href: string; title: string; note: string; ready?: boolean }> = [
   { href: '/admin/users', title: 'Users', note: 'Add, edit roles, activate/deactivate', ready: true },
-  { href: '/admin/woo', title: 'WooCommerce', note: 'Store URL, keys, sync schedule' },
-  { href: '/admin/kpis', title: 'KPIs', note: 'Add/edit/reorder, set auto source' },
-  { href: '/admin/tasks', title: 'Tasks', note: 'Daily checklist items' },
-  { href: '/admin/channels', title: 'Social channels', note: 'Platforms & handles' },
+  { href: '/admin/woo', title: 'WooCommerce', note: 'Store URL, keys, sync schedule', ready: true },
+  { href: '/admin/kpis', title: 'KPIs', note: 'Add/edit/reorder, set auto source', ready: true },
+  { href: '/admin/tasks', title: 'Tasks', note: 'Daily checklist items', ready: true },
+  { href: '/admin/channels', title: 'Social channels', note: 'Platforms & handles', ready: true },
 ];
 
 export default async function AdminHome() {
