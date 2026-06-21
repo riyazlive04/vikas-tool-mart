@@ -29,6 +29,9 @@ services:
     environment:
       # Inside the compose network the DB host is the service name.
       DATABASE_URL: postgresql://${POSTGRES_USER:-vtm}:${POSTGRES_PASSWORD:-vtm_password}@postgres:5432/${POSTGRES_DB:-vtm_cros}?schema=public
+      # Container always serves on 3000 regardless of any local-dev PORT in .env.
+      PORT: 3000
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL_DOCKER:-http://localhost:3000}
     depends_on:
       postgres:
         condition: service_healthy
