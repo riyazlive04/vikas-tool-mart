@@ -103,7 +103,7 @@ const USERS = [
   },
 ];
 
-async function main() {
+export async function seedDatabase() {
   // Settings singleton
   await prisma.setting.upsert({
     where: { id: 'singleton' },
@@ -202,14 +202,31 @@ async function main() {
     console.log(`   ${p.role.padEnd(6)}  ${p.email}  /  ${p.password}`);
   }
   console.log('─────────────────────────────────────────────────────────────────────\n');
+
+  return {
+    kpis: KPIS.length,
+    tasks: TASKS.length,
+    channels: CHANNELS.length,
+    users: USERS.length,
+    credentials: printed,
+  };
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error('Seed failed:', e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+// Run as a script (e.g. `prisma db seed` / `npm run prisma:seed`) but not when
+// imported (e.g. by the /api/bootstrap route).
+const isDirectRun =
+  typeof process !== 'undefined' &&
+  Array.isArray(process.argv) &&
+  /seed\.ts$/.test(process.argv[1] ?? '');
+
+if (isDirectRun) {
+  seedDatabase()
+    .then(async () => {
+      await prisma.$disconnect();
+    })
+    .catch(async (e) => {
+      console.error('Seed failed:', e);
+      await prisma.$disconnect();
+      process.exit(1);
+    });
+}
