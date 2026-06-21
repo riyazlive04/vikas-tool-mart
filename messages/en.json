@@ -29,9 +29,20 @@
     "worklist": "Worklist",
     "complaints": "Complaints",
     "dashboard": "Dashboard",
+    "reports": "Reports",
     "admin": "Admin",
     "logout": "Log out",
     "language": "Language"
+  },
+  "reports": {
+    "title": "Reports & Export",
+    "daily": "Daily report",
+    "summary": "Management summary",
+    "scope": "Report type",
+    "selectCre": "CRE",
+    "download": "Download",
+    "pdf": "PDF",
+    "excel": "Excel"
   },
   "auth": {
     "signIn": "Sign in",

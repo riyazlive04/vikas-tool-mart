@@ -29,9 +29,20 @@
     "worklist": "ஆர்டர் பட்டியல்",
     "complaints": "புகார்கள்",
     "dashboard": "டாஷ்போர்டு",
+    "reports": "அறிக்கைகள்",
     "admin": "நிர்வாகம்",
     "logout": "வெளியேறு",
     "language": "மொழி"
+  },
+  "reports": {
+    "title": "அறிக்கைகள் & ஏற்றுமதி",
+    "daily": "தினசரி அறிக்கை",
+    "summary": "மேலாண்மை சுருக்கம்",
+    "scope": "அறிக்கை வகை",
+    "selectCre": "CRE",
+    "download": "பதிவிறக்கம்",
+    "pdf": "PDF",
+    "excel": "Excel"
   },
   "auth": {
     "signIn": "உள்நுழை",
