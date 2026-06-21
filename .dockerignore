@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.gitignore
+*.md
+docs
+Dockerfile
+docker-compose.yml
+.env
+.env*.local
+coverage
+pgdata

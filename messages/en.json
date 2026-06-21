@@ -1,0 +1,104 @@
+{
+  "brand": {
+    "company": "Vikas Tool Mart",
+    "app": "CRE Daily Workbook",
+    "system": "Customer & Reputation Operations System"
+  },
+  "common": {
+    "save": "Save",
+    "saved": "Saved",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "loading": "Loading…",
+    "today": "Today",
+    "auto": "Auto",
+    "manual": "Manual",
+    "edited": "Edited",
+    "target": "Target",
+    "yesterday": "Yesterday",
+    "change": "Change",
+    "search": "Search",
+    "filter": "Filter",
+    "status": "Status",
+    "noData": "No data yet."
+  },
+  "nav": {
+    "workbook": "Workbook",
+    "worklist": "Worklist",
+    "complaints": "Complaints",
+    "dashboard": "Dashboard",
+    "admin": "Admin",
+    "logout": "Log out",
+    "language": "Language"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "signInCta": "Sign in to CROS",
+    "invalid": "Invalid email or password."
+  },
+  "workbook": {
+    "tabs": { "kpis": "KPIs", "tasks": "Tasks", "social": "Social", "notes": "Notes" },
+    "achievement": "Yesterday's Achievement",
+    "issues": "Issues / Bottlenecks",
+    "commitment": "Today's Commitment",
+    "notes": "Notes / Remarks",
+    "tasksProgress": "Tasks",
+    "kpisProgress": "KPIs",
+    "tapToComplete": "Tap to mark done",
+    "saveEntry": "Save today's entry"
+  },
+  "worklist": {
+    "title": "Order Worklist",
+    "contacted": "Contacted",
+    "reviewReq": "Review requested",
+    "unboxingReq": "Unboxing requested",
+    "testimonialReq": "Testimonial requested",
+    "logComplaint": "Log complaint",
+    "order": "Order",
+    "customer": "Customer",
+    "total": "Total"
+  },
+  "complaints": {
+    "title": "Complaints",
+    "new": "New complaint",
+    "customerName": "Customer name",
+    "phone": "Phone",
+    "category": "Category",
+    "description": "Description",
+    "assignedTo": "Assigned to",
+    "followUp": "Follow-up",
+    "resolutionNotes": "Resolution notes",
+    "status": { "OPEN": "Open", "IN_PROGRESS": "In progress", "RESOLVED": "Resolved" }
+  },
+  "sync": {
+    "now": "Sync now",
+    "last": "Last sync",
+    "never": "Never synced",
+    "failed": "Last sync failed — showing existing data.",
+    "running": "Syncing…"
+  },
+  "dashboard": {
+    "title": "Management Dashboard",
+    "avgRating": "Avg rating",
+    "reviews": "Reviews received",
+    "complaintsOpen": "Open complaints",
+    "complaintsClosed": "Resolved complaints",
+    "repeat": "Repeat customers",
+    "new": "New customers",
+    "accountability": "CRE Accountability",
+    "submitted": "Submitted?"
+  },
+  "admin": {
+    "title": "Admin",
+    "kpis": "KPIs",
+    "tasks": "Tasks",
+    "channels": "Social channels",
+    "users": "Users",
+    "woo": "WooCommerce settings",
+    "testConnection": "Test connection"
+  }
+}

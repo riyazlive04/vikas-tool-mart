@@ -1,0 +1,434 @@
+// Vikas Tool Mart — CROS — Prisma schema (PRD §5)
+// PostgreSQL 16. Read-only WooCommerce cache + CRE workbook + complaints + config.
+//
+// AUTH NOTE: Better Auth owns the User/Session/Account/Verification tables. The
+// PRD lists `User.passwordHash`, but Better Auth's email+password flow stores the
+// hash in Account.password (providerId="credential"). We therefore keep the hash
+// in Account (Better Auth convention) and extend User with the business fields
+// (role, department, locale, active). Everything else matches the PRD verbatim.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────── Enums ───────────────────────────
+
+enum Role {
+  ADMIN
+  HEAD
+  CRE
+}
+
+enum Locale {
+  en
+  ta
+}
+
+enum KpiType {
+  NUMBER
+  COUNT
+  CHECK
+  RATING
+}
+
+enum AutoSource {
+  WOO_NEW_CUSTOMERS
+  WOO_REPEAT_CUSTOMERS
+  WOO_ONSITE_REVIEWS
+  WOO_AVG_RATING
+  DERIVED_COMPLAINTS_LOGGED
+  DERIVED_COMPLAINTS_ASSIGNED
+  WORKLIST_CONTACTED
+  WORKLIST_REVIEW_REQ
+  WORKLIST_UNBOXING_REQ
+  WORKLIST_TESTIMONIAL_REQ
+}
+
+enum ValueSource {
+  AUTO
+  MANUAL
+}
+
+enum ReviewSourceSetting {
+  WOO
+  CUSREV
+}
+
+enum WooReviewSource {
+  WOO_CUSREV
+  GOOGLE
+}
+
+enum OrderActionType {
+  CONTACTED
+  REVIEW_REQ
+  UNBOXING_REQ
+  TESTIMONIAL_REQ
+}
+
+enum ComplaintCategory {
+  WARRANTY
+  DEFECT
+  DELIVERY
+  PRODUCT
+  OTHER
+}
+
+enum ComplaintStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+}
+
+enum SyncType {
+  SCHEDULED
+  MANUAL
+}
+
+enum SyncStatus {
+  OK
+  PARTIAL
+  FAILED
+}
+
+// ─────────────────── Auth (Better Auth) ───────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  // Business fields (Better Auth additionalFields)
+  role          Role      @default(CRE)
+  department    String?
+  locale        Locale    @default(en)
+  active        Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions Session[]
+  accounts Account[]
+
+  // App relations
+  dailyEntries       DailyEntry[]
+  complaintsLogged   Complaint[]     @relation("ComplaintLoggedBy")
+  complaintsAssigned Complaint[]     @relation("ComplaintAssignedTo")
+  orderActions       OrderAction[]
+  auditLogs          AuditLog[]
+  kpiOverrides       KpiValue[]      @relation("KpiOverriddenBy")
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String? // bcrypt/scrypt hash for credential provider
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("verification")
+}
+
+// ─────────────────── Settings (encrypted Woo creds) ───────────────────
+
+model Setting {
+  id                String              @id @default("singleton")
+  wooStoreUrl       String?
+  wooKey            String? // AES-256-GCM encrypted
+  wooSecret         String? // AES-256-GCM encrypted
+  syncCron          String              @default("30 6 * * *")
+  reviewSource      ReviewSourceSetting @default(WOO)
+  googleReviewsAuto Boolean             @default(false)
+  lastSyncedAt      DateTime?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  @@map("setting")
+}
+
+// ─────────────────── Configurable definitions ───────────────────
+
+model KpiDefinition {
+  id         String      @id @default(cuid())
+  key        String      @unique
+  label      String
+  labelTa    String?
+  type       KpiType
+  target     Float?
+  autoSource AutoSource?
+  unit       String?
+  sortOrder  Int         @default(0)
+  active     Boolean     @default(true)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  values KpiValue[]
+
+  @@map("kpi_definition")
+}
+
+model TaskDefinition {
+  id        String   @id @default(cuid())
+  label     String
+  labelTa   String?
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  completions TaskCompletion[]
+
+  @@map("task_definition")
+}
+
+model SocialChannel {
+  id        String   @id @default(cuid())
+  name      String
+  platform  String
+  handle    String?
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  snapshots SocialSnapshot[]
+
+  @@map("social_channel")
+}
+
+// ─────────────────── Daily workbook ───────────────────
+
+model DailyEntry {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date        DateTime  @db.Date
+  achievement String?
+  issues      String?
+  commitment  String?
+  notes       String?
+  submittedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  kpiValues       KpiValue[]
+  taskCompletions TaskCompletion[]
+  socialSnapshots SocialSnapshot[]
+  orderActions    OrderAction[]
+
+  @@unique([userId, date])
+  @@map("daily_entry")
+}
+
+model KpiValue {
+  id              String      @id @default(cuid())
+  dailyEntryId    String
+  dailyEntry      DailyEntry  @relation(fields: [dailyEntryId], references: [id], onDelete: Cascade)
+  kpiDefinitionId String
+  kpiDefinition   KpiDefinition @relation(fields: [kpiDefinitionId], references: [id], onDelete: Cascade)
+  autoValue       Float?
+  manualValue     Float?
+  source          ValueSource @default(AUTO)
+  overriddenById  String?
+  overriddenBy    User?       @relation("KpiOverriddenBy", fields: [overriddenById], references: [id])
+  overriddenAt    DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@unique([dailyEntryId, kpiDefinitionId])
+  @@map("kpi_value")
+}
+
+model TaskCompletion {
+  id               String         @id @default(cuid())
+  dailyEntryId     String
+  dailyEntry       DailyEntry     @relation(fields: [dailyEntryId], references: [id], onDelete: Cascade)
+  taskDefinitionId String
+  taskDefinition   TaskDefinition @relation(fields: [taskDefinitionId], references: [id], onDelete: Cascade)
+  done             Boolean        @default(false)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@unique([dailyEntryId, taskDefinitionId])
+  @@map("task_completion")
+}
+
+model SocialSnapshot {
+  id             String        @id @default(cuid())
+  dailyEntryId   String
+  dailyEntry     DailyEntry    @relation(fields: [dailyEntryId], references: [id], onDelete: Cascade)
+  channelId      String
+  channel        SocialChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  yesterdayCount Int?
+  todayCount     Int?
+  source         ValueSource   @default(MANUAL)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@unique([dailyEntryId, channelId])
+  @@map("social_snapshot")
+}
+
+// ─────────────────── Complaints ───────────────────
+
+model Complaint {
+  id              String            @id @default(cuid())
+  customerName    String
+  customerPhone   String?
+  wooOrderRef     String?
+  category        ComplaintCategory @default(OTHER)
+  description     String
+  status          ComplaintStatus   @default(OPEN)
+  assignedToId    String?
+  assignedTo      User?             @relation("ComplaintAssignedTo", fields: [assignedToId], references: [id])
+  loggedById      String
+  loggedBy        User              @relation("ComplaintLoggedBy", fields: [loggedById], references: [id])
+  loggedAt        DateTime          @default(now())
+  resolvedAt      DateTime?
+  followUpAt      DateTime?
+  resolutionNotes String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([status])
+  @@index([loggedAt])
+  @@map("complaint")
+}
+
+// ─────────────────── WooCommerce read-cache ───────────────────
+
+model WooCustomer {
+  id             String    @id @default(cuid())
+  wooId          Int       @unique
+  name           String
+  phone          String?
+  email          String?
+  firstOrderDate DateTime?
+  orderCount     Int       @default(0)
+  isRepeat       Boolean   @default(false)
+  totalSpent     Float     @default(0)
+  lastSyncedAt   DateTime  @default(now())
+
+  @@map("woo_customer")
+}
+
+model WooOrder {
+  id            String   @id @default(cuid())
+  wooId         Int      @unique
+  number        String
+  customerWooId Int?
+  customerName  String
+  total         Float    @default(0)
+  status        String
+  dateCreated   DateTime
+  itemsJson     Json?
+  lastSyncedAt  DateTime @default(now())
+
+  actions OrderAction[]
+
+  @@index([dateCreated])
+  @@map("woo_order")
+}
+
+model WooReview {
+  id          String          @id @default(cuid())
+  wooId       Int             @unique
+  source      WooReviewSource @default(WOO_CUSREV)
+  rating      Int
+  reviewerName String
+  productName String?
+  dateCreated DateTime
+  text        String?
+  lastSyncedAt DateTime       @default(now())
+
+  @@index([dateCreated])
+  @@map("woo_review")
+}
+
+// Per-order CRE actions that feed worklist KPIs (one per order/action/day).
+model OrderAction {
+  id           String          @id @default(cuid())
+  wooOrderId   String
+  wooOrder     WooOrder        @relation(fields: [wooOrderId], references: [id], onDelete: Cascade)
+  dailyEntryId String
+  dailyEntry   DailyEntry      @relation(fields: [dailyEntryId], references: [id], onDelete: Cascade)
+  action       OrderActionType
+  createdById  String
+  createdBy    User            @relation(fields: [createdById], references: [id])
+  createdAt    DateTime        @default(now())
+
+  @@unique([wooOrderId, action, dailyEntryId])
+  @@index([dailyEntryId, action])
+  @@map("order_action")
+}
+
+// ─────────────────── Logs ───────────────────
+
+model SyncLog {
+  id            String     @id @default(cuid())
+  type          SyncType
+  startedAt     DateTime   @default(now())
+  finishedAt    DateTime?
+  status        SyncStatus @default(OK)
+  recordsPulled Json?
+  error         String?
+
+  @@index([startedAt])
+  @@map("sync_log")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  entity    String
+  entityId  String?
+  meta      Json?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([entity, entityId])
+  @@map("audit_log")
+}

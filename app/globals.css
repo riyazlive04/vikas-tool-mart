@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+/* Mobile-first: app shell centers to a phone width, expands on desktop. */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ensure tap targets meet the 40px minimum (PRD §11.4). */
+button,
+[role='button'],
+input[type='checkbox'] {
+  touch-action: manipulation;
+}
+
+@layer components {
+  .vtm-card {
+    @apply bg-card rounded-xl p-4;
+  }
+  .vtm-chip {
+    @apply min-h-tap min-w-tap inline-flex items-center justify-center rounded-lg px-3 text-sm font-semibold;
+  }
+  .vtm-label {
+    @apply text-gold text-xs font-bold uppercase tracking-wide;
+  }
+}
