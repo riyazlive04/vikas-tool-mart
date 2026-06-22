@@ -9,7 +9,7 @@
 html,
 body {
   background: #1a1a1a;
-  /* Off-white (not pure white) reduces glare on dark — dark-mode best practice. */
+  /* Off-white (not pure white) reduces glare on dark - dark-mode best practice. */
   color: #e8e8e8;
 }
 
@@ -40,7 +40,7 @@ textarea {
   touch-action: manipulation;
 }
 
-/* Hide scrollbars on horizontally-scrolling strips (nav tabs) — still swipeable. */
+/* Hide scrollbars on horizontally-scrolling strips (nav tabs) - still swipeable. */
 .scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;

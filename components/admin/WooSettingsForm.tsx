@@ -91,7 +91,7 @@ export function WooSettingsForm({ initial }: Props) {
           <label className="vtm-label">Consumer key</label>
           <input
             className={`mt-1 ${inputCls}`}
-            placeholder={initial.hasKey ? '•••••• (stored — leave blank to keep)' : 'ck_…'}
+            placeholder={initial.hasKey ? '•••••• (stored - leave blank to keep)' : 'ck_…'}
             value={form.consumerKey}
             onChange={(e) => setForm({ ...form, consumerKey: e.target.value })}
             autoComplete="off"
@@ -102,7 +102,7 @@ export function WooSettingsForm({ initial }: Props) {
           <input
             className={`mt-1 ${inputCls}`}
             type="password"
-            placeholder={initial.hasSecret ? '•••••• (stored — leave blank to keep)' : 'cs_…'}
+            placeholder={initial.hasSecret ? '•••••• (stored - leave blank to keep)' : 'cs_…'}
             value={form.consumerSecret}
             onChange={(e) => setForm({ ...form, consumerSecret: e.target.value })}
             autoComplete="off"

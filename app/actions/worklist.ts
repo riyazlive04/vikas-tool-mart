@@ -19,7 +19,7 @@ export type ToggleResult = { ok: true; on: boolean } | { ok: false; error: strin
 /**
  * Toggle a per-order CRE tap-action for the signed-in user's daily entry
  * (PRD §7). Creating/removing an OrderAction auto-feeds the matching worklist
- * KPI — no manual count entry. Idempotent: re-toggling on/off is safe.
+ * KPI - no manual count entry. Idempotent: re-toggling on/off is safe.
  */
 export async function toggleOrderAction(input: unknown): Promise<ToggleResult> {
   const user = await requireUser();

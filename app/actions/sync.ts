@@ -8,7 +8,7 @@ import { runSync, type SyncResult } from '@/lib/sync';
 import { updateWooSettings, getWooCredentials } from '@/lib/settings';
 import { testConnection, type TestResult } from '@/lib/woo/client';
 
-// Manual "Sync now" (PRD §6) — Admin/Head only.
+// Manual "Sync now" (PRD §6) - Admin/Head only.
 export async function syncNow(): Promise<SyncResult> {
   const user = await requireRole(['ADMIN', 'HEAD']);
   const result = await runSync('MANUAL');
@@ -48,7 +48,7 @@ export async function saveWooSettings(input: unknown): Promise<SaveResult> {
 }
 
 // Test connection. Uses freshly-typed key/secret when provided, else the stored
-// (decrypted) credentials — so an admin can re-test without re-entering secrets.
+// (decrypted) credentials - so an admin can re-test without re-entering secrets.
 const testSchema = z.object({
   wooStoreUrl: z.string().url(),
   consumerKey: z.string().optional(),

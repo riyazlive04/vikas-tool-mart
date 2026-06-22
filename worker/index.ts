@@ -4,7 +4,7 @@
  *
  * Run: npm run worker   (or the `worker` docker-compose service)
  *
- * UPGRADE PATH: BullMQ — when sync volume or retry/backoff needs grow, replace
+ * UPGRADE PATH: BullMQ - when sync volume or retry/backoff needs grow, replace
  * this in-process cron trigger with a Redis-backed BullMQ queue + workers. The
  * sync service (lib/sync) stays unchanged; only the trigger moves.
  */
@@ -19,7 +19,7 @@ async function resolveCron(): Promise<string> {
     const s = await getSettings();
     if (s.syncCron && cron.validate(s.syncCron)) return s.syncCron;
   } catch {
-    // DB not reachable yet — fall back to env.
+    // DB not reachable yet - fall back to env.
   }
   return cron.validate(DEFAULT_CRON) ? DEFAULT_CRON : '30 6 * * *';
 }

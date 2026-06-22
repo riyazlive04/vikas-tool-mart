@@ -26,7 +26,7 @@ const config: Config = {
         },
         success: { DEFAULT: '#4CAF50', soft: '#66BB6A' },
         danger: { DEFAULT: '#F44336', soft: '#EF6E64' },
-        muted: '#A1A1A1', // secondary text — ~5.3:1 on ink (WCAG AA)
+        muted: '#A1A1A1', // secondary text - ~5.3:1 on ink (WCAG AA)
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

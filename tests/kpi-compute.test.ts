@@ -50,7 +50,7 @@ describe('avgRatingScaled', () => {
   it('returns null for no ratings', () => {
     expect(avgRatingScaled([])).toBeNull();
   });
-  it('scales 1–5 ratings to /10', () => {
+  it('scales 1-5 ratings to /10', () => {
     expect(avgRatingScaled([5, 5, 5])).toBe(10);
     expect(avgRatingScaled([4, 5])).toBe(9); // mean 4.5 ×2 = 9
   });

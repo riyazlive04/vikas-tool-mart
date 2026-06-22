@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { requireUser } from '@/lib/auth/session';
 import { NavTabs } from '@/components/layout/NavTabs';
+import { BottomNav } from '@/components/layout/BottomNav';
 import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher';
 import { LogoutButton } from '@/components/layout/LogoutButton';
 
@@ -33,10 +34,17 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           {user.name} · {user.role}
           {user.department ? ` · ${user.department}` : ''}
         </div>
-        <NavTabs role={user.role} />
+        {/* Top tab strip on desktop; mobile uses the bottom bar instead. */}
+        <div className="hidden lg:block">
+          <NavTabs role={user.role} />
+        </div>
+        <div className="pb-2 lg:hidden" />
       </header>
 
-      <main className="px-4 py-4">{children}</main>
+      {/* Extra bottom padding on mobile so content clears the fixed bottom bar. */}
+      <main className="px-4 py-4 pb-24 lg:pb-4">{children}</main>
+
+      <BottomNav role={user.role} />
     </div>
   );
 }

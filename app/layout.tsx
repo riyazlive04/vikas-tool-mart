@@ -8,7 +8,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'], weight: ['400', '600', '700', '800'], display: 'swap' });
 
 export const metadata: Metadata = {
-  title: 'Vikas Tool Mart — CROS',
+  title: 'Vikas Tool Mart - CROS',
   description: 'Customer & Reputation Operations System',
   manifest: '/manifest.webmanifest',
   icons: { icon: '/logo.png', apple: '/logo.png', shortcut: '/logo.png' },

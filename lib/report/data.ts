@@ -64,7 +64,7 @@ export async function getDailyReport(userId: string, date: Date): Promise<DailyR
 
 export type SummaryReport = Awaited<ReturnType<typeof computeDashboard>> & { generatedAt: string };
 
-// Weekly/monthly summary (PRD §10) — reuses the dashboard aggregation.
+// Weekly/monthly summary (PRD §10) - reuses the dashboard aggregation.
 export async function getSummaryReport(range: DateRange): Promise<SummaryReport> {
   const data = await computeDashboard(range);
   return { ...data, generatedAt: isoDate(new Date()) };

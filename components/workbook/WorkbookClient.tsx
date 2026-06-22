@@ -126,7 +126,7 @@ export function WorkbookClient({
           saved || submitted ? 'bg-success hover:bg-success' : 'bg-gold hover:bg-gold-600'
         }`}
       >
-        {saved ? '✓ ' + t('saveEntry') : submitted ? '✓ Submitted — update' : t('saveEntry')}
+        {saved ? '✓ ' + t('saveEntry') : submitted ? '✓ Submitted - update' : t('saveEntry')}
       </button>
     </div>
   );
@@ -282,7 +282,7 @@ function SocialRow({ social, date }: { social: WbSocial; date: string }) {
         <div className="flex-1 text-center">
           <div className="mb-1 text-[10px] uppercase text-muted">{tc('change')}</div>
           <div className={`text-lg font-extrabold ${diff > 0 ? 'text-success' : diff < 0 ? 'text-danger' : 'text-muted'}`}>
-            {diff > 0 ? `+${diff}` : diff === 0 ? '—' : diff}
+            {diff > 0 ? `+${diff}` : diff === 0 ? '-' : diff}
           </div>
         </div>
       </div>

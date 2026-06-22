@@ -21,7 +21,7 @@ export async function resolveEntryKpis(dailyEntryId: string, date: Date): Promis
   ]);
   const storedByDef = new Map(stored.map((s) => [s.kpiDefinitionId, s]));
 
-  // Compute all auto values concurrently (was sequential — ~10 round-trips in a
+  // Compute all auto values concurrently (was sequential - ~10 round-trips in a
   // row). Manual KPIs resolve to null without a query.
   const autoValues = await Promise.all(
     defs.map((def) =>

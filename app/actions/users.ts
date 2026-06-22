@@ -106,7 +106,7 @@ export async function resetPassword(id: string, newPassword: string): Promise<Ac
     data: { password: passwordHash },
   });
   if (res.count === 0) {
-    // No credential account yet (edge case) — create one.
+    // No credential account yet (edge case) - create one.
     await prisma.account.create({
       data: { userId: id, accountId: id, providerId: 'credential', password: passwordHash },
     });

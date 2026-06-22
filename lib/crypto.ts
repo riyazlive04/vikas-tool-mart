@@ -1,6 +1,6 @@
 import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
 
-// AES-256-GCM encryption for secrets at rest (WooCommerce key/secret — PRD §5,
+// AES-256-GCM encryption for secrets at rest (WooCommerce key/secret - PRD §5,
 // §10). Key is APP_ENCRYPTION_KEY (32 bytes, base64). Format: iv:tag:ciphertext
 // (all base64). Never log plaintext or the key.
 const ALGO = 'aes-256-gcm';
@@ -32,7 +32,7 @@ export function decrypt(payload: string): string {
   return dec.toString('utf8');
 }
 
-// Safe decrypt — returns null instead of throwing (e.g. unset / rotated key).
+// Safe decrypt - returns null instead of throwing (e.g. unset / rotated key).
 export function tryDecrypt(payload: string | null | undefined): string | null {
   if (!payload) return null;
   try {

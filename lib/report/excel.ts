@@ -7,7 +7,7 @@ export function dailyWorkbook(report: DailyReport): Buffer {
   const wb = XLSX.utils.book_new();
 
   const meta = [
-    ['Vikas Tool Mart — CRE Daily Report'],
+    ['Vikas Tool Mart - CRE Daily Report'],
     ['CRE', report.user.name],
     ['Role', report.user.role],
     ['Date', report.date],
@@ -42,7 +42,7 @@ export function summaryWorkbook(report: SummaryReport): Buffer {
   const wb = XLSX.utils.book_new();
 
   const metrics = [
-    ['Vikas Tool Mart — Management Summary'],
+    ['Vikas Tool Mart - Management Summary'],
     ['Range', report.range.label],
     ['Generated', report.generatedAt],
     [],

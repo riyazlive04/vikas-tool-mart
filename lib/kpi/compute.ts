@@ -1,4 +1,4 @@
-// Pure KPI computation helpers — no DB, fully unit-testable (PRD §7).
+// Pure KPI computation helpers - no DB, fully unit-testable (PRD §7).
 
 export type CustomerLite = { wooId: number; firstOrderDate: Date | null; isRepeat: boolean };
 export type OrderLite = { customerWooId: number | null; dateCreated: Date };
@@ -42,7 +42,7 @@ export function classifyCustomers(
   return { newCount, repeatCount };
 }
 
-// Average rating scaled to a /10 axis (Woo ratings are 1–5; KPI target is /10).
+// Average rating scaled to a /10 axis (Woo ratings are 1-5; KPI target is /10).
 // Returns null when there are no ratings. Rounded to 1 decimal.
 export function avgRatingScaled(ratings: number[]): number | null {
   const valid = ratings.filter((r) => Number.isFinite(r) && r > 0);

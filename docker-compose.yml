@@ -1,6 +1,6 @@
-# Vikas Tool Mart — CROS — app + postgres + worker
+# Vikas Tool Mart - CROS - app + postgres + worker
 # Usage: docker compose up --build
-# PostgreSQL may instead be a managed instance — point DATABASE_URL at it and
+# PostgreSQL may instead be a managed instance - point DATABASE_URL at it and
 # remove the postgres service + depends_on.
 services:
   postgres:

@@ -127,7 +127,7 @@ function pathFor(entity: Entity) {
 
 export async function toggleActive(entity: Entity, id: string, active: boolean): Promise<CfgResult> {
   const user = await requireRole(['ADMIN']);
-  // @ts-expect-error — union of delegates share update signature
+  // @ts-expect-error - union of delegates share update signature
   await model(entity).update({ where: { id }, data: { active } });
   await audit({ userId: user.id, action: `${entity}.toggle`, entity, entityId: id, meta: { active } });
   revalidatePath(pathFor(entity));
@@ -139,19 +139,19 @@ export async function toggleActive(entity: Entity, id: string, active: boolean):
 export async function reorder(entity: Entity, id: string, direction: 'up' | 'down'): Promise<CfgResult> {
   const user = await requireRole(['ADMIN']);
   const m = model(entity);
-  // @ts-expect-error — shared findUnique
+  // @ts-expect-error - shared findUnique
   const current = await m.findUnique({ where: { id } });
   if (!current) return bad('Not found');
-  // @ts-expect-error — shared findFirst
+  // @ts-expect-error - shared findFirst
   const neighbour = await m.findFirst({
     where: direction === 'up' ? { sortOrder: { lt: current.sortOrder } } : { sortOrder: { gt: current.sortOrder } },
     orderBy: { sortOrder: direction === 'up' ? 'desc' : 'asc' },
   });
   if (!neighbour) return { ok: true }; // already at the edge
   await prisma.$transaction([
-    // @ts-expect-error — shared update
+    // @ts-expect-error - shared update
     m.update({ where: { id: current.id }, data: { sortOrder: neighbour.sortOrder } }),
-    // @ts-expect-error — shared update
+    // @ts-expect-error - shared update
     m.update({ where: { id: neighbour.id }, data: { sortOrder: current.sortOrder } }),
   ]);
   await audit({ userId: user.id, action: `${entity}.reorder`, entity, entityId: id, meta: { direction } });

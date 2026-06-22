@@ -89,7 +89,7 @@
     "now": "Sync now",
     "last": "Last sync",
     "never": "Never synced",
-    "failed": "Last sync failed — showing existing data.",
+    "failed": "Last sync failed - showing existing data.",
     "running": "Syncing…"
   },
   "dashboard": {

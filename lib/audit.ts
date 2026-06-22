@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db';
 import type { Prisma } from '@prisma/client';
 
 // Append-only audit trail (PRD §5 AuditLog). Best-effort: never throw out of an
-// audit write — a logging failure must not break the user action.
+// audit write - a logging failure must not break the user action.
 export async function audit(params: {
   userId?: string | null;
   action: string;

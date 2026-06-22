@@ -32,7 +32,7 @@ async function run() {
   mkdirSync(OUT, { recursive: true });
   const browser = await chromium.launch();
 
-  // CRE — mobile-first viewport.
+  // CRE - mobile-first viewport.
   const creCtx: BrowserContext = await browser.newContext({ viewport: { width: 430, height: 932 }, deviceScaleFactor: 2 });
   const cre = await creCtx.newPage();
   console.log('CRE (mobile):');
@@ -51,7 +51,7 @@ async function run() {
   await shot(cre, '/reports', '07-cre-reports.png');
   await creCtx.close();
 
-  // Admin / Head — tablet viewport for the dashboard table + admin config.
+  // Admin / Head - tablet viewport for the dashboard table + admin config.
   const admCtx = await browser.newContext({ viewport: { width: 820, height: 1180 }, deviceScaleFactor: 2 });
   const adm = await admCtx.newPage();
   console.log('Admin (tablet):');

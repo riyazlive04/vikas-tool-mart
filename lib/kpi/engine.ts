@@ -1,6 +1,6 @@
 import type { AutoSource } from '@prisma/client';
 
-// ── Pure resolver (PRD §7) — unit-tested, no DB. ──
+// ── Pure resolver (PRD §7) - unit-tested, no DB. ──
 
 export type ResolvedSource = 'AUTO' | 'MANUAL';
 

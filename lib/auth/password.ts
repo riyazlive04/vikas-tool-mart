@@ -2,7 +2,7 @@ import { scrypt, randomBytes, timingSafeEqual } from 'node:crypto';
 import { promisify } from 'node:util';
 
 // Password hashing shared by Better Auth (lib/auth) and the Prisma seed so that
-// seeded credentials verify correctly. scrypt via Node crypto — no native deps.
+// seeded credentials verify correctly. scrypt via Node crypto - no native deps.
 const scryptAsync = promisify(scrypt);
 const KEYLEN = 64;
 const SALT_BYTES = 16;

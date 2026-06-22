@@ -56,7 +56,7 @@ async function run() {
   }
 
   await browser.close();
-  console.log(bad === 0 ? '\n✅ No horizontal overflow on any page.' : `\n⚠ ${bad} page(s) overflow — needs a fix.`);
+  console.log(bad === 0 ? '\n✅ No horizontal overflow on any page.' : `\n⚠ ${bad} page(s) overflow - needs a fix.`);
   process.exit(bad === 0 ? 0 : 1);
 }
 

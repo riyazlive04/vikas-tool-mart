@@ -3,7 +3,7 @@
  * Output: docs/VTM-CROS-User-Guide.pdf
  */
 import React from 'react';
-import { Document, Page, Text, View, Image, StyleSheet, renderToBuffer } from '@react-pdf/renderer';
+import { Document, Page, Text, View, Image, Link, StyleSheet, renderToBuffer } from '@react-pdf/renderer';
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const SHOTS = 'docs/screenshots';
@@ -55,7 +55,7 @@ function Bullets({ items }: { items: string[] }) {
 function Footer() {
   return (
     <View style={s.footer} fixed>
-      <Text>Vikas Tool Mart — CROS User Guide</Text>
+      <Text>Vikas Tool Mart - CROS User Guide</Text>
       <Text render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
     </View>
   );
@@ -91,28 +91,28 @@ const FEATURES: Array<{ role: string; title: string; intro: string; steps: strin
     ],
   },
   {
-    role: 'CRE', title: '2. Daily Workbook — KPIs', file: '02-cre-workbook-kpis.png', mobile: true,
+    role: 'CRE', title: '2. Daily Workbook - KPIs', file: '02-cre-workbook-kpis.png', mobile: true,
     intro: 'Your day on one screen. KPIs marked “Auto” are filled from WooCommerce and your worklist taps; you only type what is genuinely manual.',
     steps: [
       'Pick the date at the top; the day is pre-filled from sync + worklist actions.',
-      'Auto KPIs show a green “Auto” tag — tap the number to override, then “revert” to restore.',
+      'Auto KPIs show a green “Auto” tag - tap the number to override, then “revert” to restore.',
       'Tick check-type KPIs (e.g., “Tip of the Day Posted”); type counts where needed.',
       'Fill Achievement / Issues / Commitment; everything auto-saves on blur.',
       'Progress bars show tasks done and KPIs filled. Tap “Submit” when done.',
     ],
   },
   {
-    role: 'CRE', title: '3. Daily Workbook — Tasks, Social & Notes', file: '03-cre-workbook-tasks.png', mobile: true,
+    role: 'CRE', title: '3. Daily Workbook - Tasks, Social & Notes', file: '03-cre-workbook-tasks.png', mobile: true,
     intro: 'The Tasks tab is your daily checklist; Social tracks follower counts; Notes holds free text.',
     steps: [
-      'Tap any task to mark it done — the progress bar updates instantly.',
+      'Tap any task to mark it done - the progress bar updates instantly.',
       'On the Social tab, enter yesterday/today counts; the change is computed for you.',
       'Tasks and channels are configured by your admin, so the list stays current.',
     ],
   },
   {
-    role: 'CRE', title: '4. Order Worklist — one-tap actions', file: '04-cre-worklist.png', mobile: true,
-    intro: 'The heart of the system. Each morning the day’s WooCommerce orders appear here. Working the list updates your KPI counts automatically — no typing.',
+    role: 'CRE', title: '4. Order Worklist - one-tap actions', file: '04-cre-worklist.png', mobile: true,
+    intro: 'The heart of the system. Each morning the day’s WooCommerce orders appear here. Working the list updates your KPI counts automatically - no typing.',
     steps: [
       'Tap “Contacted”, “Review requested”, “Unboxing requested”, or “Testimonial requested” per order.',
       'Each tap turns green and increments the matching KPI on your workbook.',
@@ -136,7 +136,7 @@ const FEATURES: Array<{ role: string; title: string; intro: string; steps: strin
       'Enter customer name (pre-filled when opened from the worklist).',
       'Pick a category (Warranty / Defect / Delivery / Product / Other).',
       'Start typing an order # or customer to search and link a Woo order.',
-      'Describe the issue and save — it appears in the Complaints list immediately.',
+      'Describe the issue and save - it appears in the Complaints list immediately.',
     ],
   },
   {
@@ -156,12 +156,12 @@ const FEATURES: Array<{ role: string; title: string; intro: string; steps: strin
       'Read avg rating, reviews, complaints open vs resolved, new vs repeat customers, follower growth.',
       'The reviews chart shows on-site reviews per day.',
       'The CRE Accountability table shows who submitted, task %, and KPIs filled.',
-      'A banner appears if the last sync failed — data stays available regardless.',
+      'A banner appears if the last sync failed - data stays available regardless.',
     ],
   },
   {
     role: 'ADMIN', title: '9. Admin overview', file: '11-admin-home.png', mobile: false,
-    intro: 'Everything configurable lives here — no developer needed.',
+    intro: 'Everything configurable lives here - no developer needed.',
     steps: ['Manage Users, WooCommerce, KPIs, Tasks, and Social channels from one place.'],
   },
   {
@@ -185,7 +185,7 @@ const FEATURES: Array<{ role: string; title: string; intro: string; steps: strin
   },
   {
     role: 'ADMIN', title: '12. Configure KPIs (and Tasks / Channels)', file: '14-admin-kpis.png', mobile: false,
-    intro: 'Tailor the workbook to how VTM works — add, edit, reorder, or disable items without code.',
+    intro: 'Tailor the workbook to how VTM works - add, edit, reorder, or disable items without code.',
     steps: [
       'Add a KPI with EN/TA labels, type, target, and unit.',
       'Set an auto source (e.g., new customers, worklist contacted) or leave it manual.',
@@ -197,7 +197,7 @@ const FEATURES: Array<{ role: string; title: string; intro: string; steps: strin
 
 async function build() {
   const doc = (
-    <Document title="Vikas Tool Mart — CROS User Guide" author="Sirah Digital">
+    <Document title="Vikas Tool Mart - CROS User Guide" author="Sirah Digital">
       {/* Cover */}
       <Page size="A4" style={s.page}>
         <View style={{ marginTop: 120, alignItems: 'center' }}>
@@ -208,7 +208,10 @@ async function build() {
           <Text style={{ marginTop: 18, fontSize: 12, color: C.muted }}>Customer & Reputation Operations System</Text>
           <Text style={{ marginTop: 6, fontSize: 10, color: C.muted }}>Daily Workbook · Order Worklist · Complaints · Dashboard</Text>
           <Text style={{ marginTop: 40, fontSize: 9, color: C.muted }}>For CRE Executives, Department Heads, and Admins</Text>
-          <Text style={{ marginTop: 4, fontSize: 9, color: C.muted }}>Prepared by Sirah Digital</Text>
+          <Text style={{ marginTop: 4, fontSize: 9, color: C.muted }}>
+            Prepared by{' '}
+            <Link src="https://sirahdigital.in/" style={{ color: C.muted, textDecoration: 'none' }}>Sirah Digital</Link>
+          </Text>
         </View>
         <Footer />
       </Page>
@@ -225,14 +228,14 @@ async function build() {
         </Text>
         <View style={s.card}>
           <Text style={s.th}>The one idea that makes it fast</Text>
-          <Text>Reduce manual entry — but keep it always possible. Anything the store knows is auto-filled; every
+          <Text>Reduce manual entry - but keep it always possible. Anything the store knows is auto-filled; every
             auto value can still be edited by hand, and the app works fully even if sync is off.</Text>
         </View>
         <Text style={s.h2}>Roles at a glance</Text>
         <Bullets items={[
-          'CRE — Daily Workbook, Order Worklist, log Complaints, own Reports.',
-          'Head — everything a CRE can do, plus the Management Dashboard, all complaints, and summaries.',
-          'Admin — everything, plus configuration: users, WooCommerce, KPIs, tasks, and channels.',
+          'CRE - Daily Workbook, Order Worklist, log Complaints, own Reports.',
+          'Head - everything a CRE can do, plus the Management Dashboard, all complaints, and summaries.',
+          'Admin - everything, plus configuration: users, WooCommerce, KPIs, tasks, and channels.',
         ]} />
         <View style={s.card}>
           <Text style={s.th}>First-time sign-in</Text>

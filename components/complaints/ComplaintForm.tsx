@@ -78,7 +78,7 @@ export function ComplaintForm({ prefill }: { prefill: { orderRef: string; custom
           onChange={(e) => onOrderSearch(e.target.value)} />
         <datalist id="woo-orders">
           {orderMatches.map((o) => (
-            <option key={o.number} value={o.number}>{o.number} — {o.customerName}</option>
+            <option key={o.number} value={o.number}>{o.number} - {o.customerName}</option>
           ))}
         </datalist>
       </div>

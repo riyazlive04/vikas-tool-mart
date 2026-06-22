@@ -21,7 +21,7 @@ const createSchema = z.object({
 });
 
 // Logging a complaint feeds DERIVED_COMPLAINTS_LOGGED automatically (no double
-// entry) — the KPI counts complaints by loggedAt.
+// entry) - the KPI counts complaints by loggedAt.
 export async function createComplaint(input: unknown): Promise<CResult> {
   const user = await requireUser();
   const p = createSchema.safeParse(input);

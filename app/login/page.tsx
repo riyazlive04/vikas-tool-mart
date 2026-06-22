@@ -19,7 +19,15 @@ export default async function LoginPage() {
         <LoginForm />
       </div>
       <p className="mt-6 text-center text-[11px] text-muted">
-        © {new Date().getFullYear()} Vikas Tool Mart · Built by Sirah Digital
+        © {new Date().getFullYear()} Vikas Tool Mart · Built by{' '}
+        <a
+          href="https://sirahdigital.in/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-gold hover:underline"
+        >
+          Sirah Digital
+        </a>
       </p>
     </main>
   );

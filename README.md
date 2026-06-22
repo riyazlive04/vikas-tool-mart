@@ -1,6 +1,6 @@
-# Vikas Tool Mart — CROS
+# Vikas Tool Mart - CROS
 
-**Customer & Reputation Operations System** — a cloud, multi-user, bilingual
+**Customer & Reputation Operations System** - a cloud, multi-user, bilingual
 (English/Tamil), mobile-first web app for Vikas Tool Mart's CRE team. It reads
 the live WooCommerce store to auto-populate daily metrics, lets staff work the
 day's orders with one-tap actions that compute KPI counts automatically, tracks
@@ -12,22 +12,22 @@ Built by **Sirah Digital**. See `Vikas_Tool_Mart_PRD_v2.md` for the product spec
 
 ## Design principle
 
-> As flexible and easy as possible. Reduce manual entry — but manual entry must
+> As flexible and easy as possible. Reduce manual entry - but manual entry must
 > always be possible.
 
-1. **Automate-first** — anything WooCommerce knows is pulled automatically.
-2. **Manual override, always** — every metric is editable; auto values are
+1. **Automate-first** - anything WooCommerce knows is pulled automatically.
+2. **Manual override, always** - every metric is editable; auto values are
    pre-filled suggestions. The app is 100% usable with sync turned off.
-3. **Configurable, not hard-coded** — KPIs, tasks, and social channels are
+3. **Configurable, not hard-coded** - KPIs, tasks, and social channels are
    admin-editable database rows.
 
 ---
 
 ## Tech stack
 
-- **Next.js 14** (App Router, TypeScript) — UI + route handlers + server actions
+- **Next.js 14** (App Router, TypeScript) - UI + route handlers + server actions
 - **PostgreSQL 16 + Prisma**
-- **Better Auth** — email + password, session-based, role-based (ADMIN/HEAD/CRE)
+- **Better Auth** - email + password, session-based, role-based (ADMIN/HEAD/CRE)
 - **Tailwind CSS** (VTM brand), **Recharts**, **next-intl** (en/ta)
 - **node-cron** worker for scheduled WooCommerce read-sync
 - **@woocommerce/woocommerce-rest-api** (read-only), **@react-pdf/renderer** + **xlsx** exports
@@ -112,7 +112,7 @@ See `.env.example` for the full list. Key ones:
 |---|---|
 | `DATABASE_URL` | Postgres connection string |
 | `BETTER_AUTH_SECRET` | Session signing secret (`openssl rand -base64 32`) |
-| `APP_ENCRYPTION_KEY` | 32-byte base64 key — AES-256-GCM for Woo secrets at rest |
+| `APP_ENCRYPTION_KEY` | 32-byte base64 key - AES-256-GCM for Woo secrets at rest |
 | `SYNC_CRON` | Worker schedule (default `30 6 * * *`); admin can override in-app |
 | `SEED_*_EMAIL` / `SEED_*_PASSWORD` | Seed user credentials (change after first login) |
 | `WOO_STORE_URL` / `WOO_CONSUMER_KEY` / `WOO_CONSUMER_SECRET` | Optional; configure in-app instead |
@@ -132,7 +132,7 @@ Then in CROS: **Admin → WooCommerce** → enter the store URL + keys → **Tes
 connection** → **Save**. Keys are stored encrypted (AES-256-GCM) and never shown
 again. Use **Sync now** for an immediate pull; the worker syncs on schedule.
 
-The app reads `orders`, `customers`, and `products/reviews` only — it never
+The app reads `orders`, `customers`, and `products/reviews` only - it never
 writes to the store. If sync fails, the prior cache is kept and a banner shows
 the failure; all metrics remain manually editable.
 
@@ -154,9 +154,9 @@ Printed once when the seed runs (defaults from `.env`):
 
 ## Roles
 
-- **CRE** — daily workbook, order worklist, log complaints, own reports.
-- **HEAD** — everything CRE plus the management dashboard, all complaints, summaries.
-- **ADMIN** — everything plus admin config (users, WooCommerce, KPIs, tasks, channels).
+- **CRE** - daily workbook, order worklist, log complaints, own reports.
+- **HEAD** - everything CRE plus the management dashboard, all complaints, summaries.
+- **ADMIN** - everything plus admin config (users, WooCommerce, KPIs, tasks, channels).
 
 ---
 
@@ -175,22 +175,22 @@ npx tsx tests/_manual/complaints-integration.ts   # complaints feed KPIs
 
 ---
 
-## Deploy to Vercel (free — demo)
+## Deploy to Vercel (free - demo)
 
 Vercel is serverless, so the `node-cron` worker is replaced by a **Vercel Cron**
 job hitting `/api/cron/sync` (configured in `vercel.json`). You need a hosted
 Postgres (Neon free tier works well).
 
-1. **Create a free Postgres** — in the Vercel dashboard: **Storage → Create → Neon**
+1. **Create a free Postgres** - in the Vercel dashboard: **Storage → Create → Neon**
    (or Supabase). It auto-adds `DATABASE_URL` to the project. Use the **pooled**
    connection string for serverless.
-2. **Import the repo** — New Project → import `vikas-tool-mart` from GitHub.
+2. **Import the repo** - New Project → import `vikas-tool-mart` from GitHub.
 3. **Add environment variables** (Project → Settings → Environment Variables):
    - `BETTER_AUTH_SECRET` = `openssl rand -base64 32`
    - `APP_ENCRYPTION_KEY` = `openssl rand -base64 32`
    - `BETTER_AUTH_URL` = your production URL, e.g. `https://vikas-tool-mart.vercel.app`
    - `CRON_SECRET` = any long random string (secures the cron route)
-   - (leave `NEXT_PUBLIC_BETTER_AUTH_URL` unset — the client uses same-origin)
+   - (leave `NEXT_PUBLIC_BETTER_AUTH_URL` unset - the client uses same-origin)
 4. **Deploy.** The build command (in `vercel.json`) runs
    `prisma migrate deploy && prisma db seed` automatically, so the schema + seed
    (KPIs/tasks/channels/users) are provisioned on first deploy. Seed credentials
@@ -201,7 +201,7 @@ Postgres (Neon free tier works well).
 
 > **DPDP note:** for production (not just a demo), choose an India region for the
 > database and Vercel function region (`bom1`, Pro plan). For a Hostinger VPS the
-> data stays on one India-hosted box — see below.
+> data stays on one India-hosted box - see below.
 
 ## Deploy to Hostinger VPS (notes)
 
@@ -220,9 +220,9 @@ Postgres (Neon free tier works well).
 
 ## Upgrade paths (left as clean extension points)
 
-- **BullMQ** — replace the in-process cron trigger (`/worker`) with a Redis-backed
+- **BullMQ** - replace the in-process cron trigger (`/worker`) with a Redis-backed
   queue when sync volume/retries grow (marked in `worker/index.ts`).
-- **Google Business Profile** — auto-pull Google reviews (manual in P1).
-- **Service / Marketing modules** — the config-driven KPIs + service-layer
+- **Google Business Profile** - auto-pull Google reviews (manual in P1).
+- **Service / Marketing modules** - the config-driven KPIs + service-layer
   interfaces are ready for additional departments.
 ```

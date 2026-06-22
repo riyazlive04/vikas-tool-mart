@@ -21,7 +21,7 @@ export function MetricCard({
         <SourceTag source={source} />
       </div>
       <div className={`mt-1.5 text-[28px] font-extrabold leading-none tracking-tight ${color}`}>
-        {value == null ? '—' : value.toLocaleString('en-IN')}
+        {value == null ? '-' : value.toLocaleString('en-IN')}
         {value != null && suffix ? <span className="text-sm font-bold text-muted"> {suffix}</span> : null}
       </div>
     </div>

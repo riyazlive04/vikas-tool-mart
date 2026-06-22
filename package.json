@@ -2,7 +2,7 @@
   "name": "vtm-cros",
   "version": "1.0.0",
   "private": true,
-  "description": "Vikas Tool Mart — Customer & Reputation Operations System (CROS)",
+  "description": "Vikas Tool Mart - Customer & Reputation Operations System (CROS)",
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",

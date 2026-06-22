@@ -1,5 +1,5 @@
 /**
- * Seed (PRD §11). Idempotent — safe to re-run. Uses stable ids / unique keys so
+ * Seed (PRD §11). Idempotent - safe to re-run. Uses stable ids / unique keys so
  * upserts don't duplicate. Prints seed credentials once at the end.
  */
 import { PrismaClient, KpiType, AutoSource, Role, Locale } from '@prisma/client';
@@ -7,7 +7,7 @@ import { hashPassword } from '../lib/auth/password';
 
 const prisma = new PrismaClient();
 
-// ── KPIs (PRD §11.1) — key, EN/TA label, type, target, autoSource, unit ──
+// ── KPIs (PRD §11.1) - key, EN/TA label, type, target, autoSource, unit ──
 const KPIS: Array<{
   key: string;
   label: string;
@@ -17,7 +17,7 @@ const KPIS: Array<{
   autoSource?: AutoSource;
   unit?: string;
 }> = [
-  { key: 'avg_customer_rating', label: 'Average Customer Rating (1–10)', labelTa: 'சராசரி வாடிக்கையாளர் மதிப்பீடு (1–10)', type: KpiType.RATING, target: 9.0, autoSource: AutoSource.WOO_AVG_RATING, unit: '/10' },
+  { key: 'avg_customer_rating', label: 'Average Customer Rating (1-10)', labelTa: 'சராசரி வாடிக்கையாளர் மதிப்பீடு (1-10)', type: KpiType.RATING, target: 9.0, autoSource: AutoSource.WOO_AVG_RATING, unit: '/10' },
   { key: 'google_review_requested', label: 'Google Review Requested', labelTa: 'Google மதிப்புரை கோரப்பட்டது', type: KpiType.COUNT, autoSource: AutoSource.WORKLIST_REVIEW_REQ },
   { key: 'unboxing_video_requested', label: 'Unboxing Video Requested', labelTa: 'அன்பாக்சிங் வீடியோ கோரப்பட்டது', type: KpiType.COUNT, autoSource: AutoSource.WORKLIST_UNBOXING_REQ },
   { key: 'testimonial_requested', label: 'Testimonial Requested', labelTa: 'சான்றுரை கோரப்பட்டது', type: KpiType.COUNT, autoSource: AutoSource.WORKLIST_TESTIMONIAL_REQ },
@@ -37,7 +37,7 @@ const KPIS: Array<{
   { key: 'new_product_restock_post', label: 'New Product Restock Post Uploaded', labelTa: 'புதிய தயாரிப்பு மறுசரக்கு பதிவு பதிவேற்றப்பட்டது', type: KpiType.CHECK },
 ];
 
-// ── Tasks (PRD §11.2) — "Invoice List Received" removed (now automatic) ──
+// ── Tasks (PRD §11.2) - "Invoice List Received" removed (now automatic) ──
 const TASKS: Array<{ id: string; label: string; labelTa: string }> = [
   { id: 'task_whatsapp_review', label: 'WhatsApp Review Request Sent', labelTa: 'WhatsApp மதிப்புரை கோரிக்கை அனுப்பப்பட்டது' },
   { id: 'task_followup_calls', label: 'Customer Follow-up Calls Done', labelTa: 'வாடிக்கையாளர் பின்தொடர் அழைப்புகள் முடிந்தன' },
