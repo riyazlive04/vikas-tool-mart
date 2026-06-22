@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { saveTask, toggleActive, reorder, type CfgResult } from '@/app/actions/config';
 
 type Task = { id: string; label: string; labelTa: string | null; active: boolean };
-const inputCls = 'w-full rounded-lg border border-neutral-700 bg-neutral-800 px-2.5 py-2 text-sm outline-none focus:border-gold';
+const inputCls = 'field';
 
 export function TaskManager({ tasks }: { tasks: Task[] }) {
   const router = useRouter();

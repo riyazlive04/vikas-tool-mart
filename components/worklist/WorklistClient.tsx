@@ -56,13 +56,9 @@ export function WorklistClient({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={`${tc('search')} #/customer`}
-          className="min-h-tap flex-1 rounded-lg border border-neutral-700 bg-neutral-800 px-3 text-sm outline-none focus:border-gold"
+          className="field flex-1"
         />
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="min-h-tap rounded-lg border border-neutral-700 bg-neutral-800 px-2 text-sm outline-none focus:border-gold"
-        >
+        <select value={status} onChange={(e) => setStatus(e.target.value)} className="field w-auto">
           {statuses.map((s) => (
             <option key={s} value={s}>
               {s === 'all' ? tc('filter') : s}
@@ -148,10 +144,10 @@ function OrderRow({
               onClick={() => toggle(c.action)}
               disabled={pending}
               aria-pressed={on}
-              className={`vtm-chip border disabled:opacity-60 ${
+              className={`vtm-chip disabled:opacity-60 ${
                 on
                   ? 'border-success bg-success/20 text-success'
-                  : 'border-neutral-700 bg-neutral-800 text-neutral-300'
+                  : 'border-line bg-elevated text-neutral-300 hover:border-neutral-600'
               }`}
             >
               {on ? '✓ ' : ''}
@@ -161,7 +157,7 @@ function OrderRow({
         })}
         <Link
           href={`/complaints/new?orderRef=${encodeURIComponent(order.number)}&customer=${encodeURIComponent(order.customerName)}`}
-          className="vtm-chip border border-danger/60 bg-danger/10 text-danger"
+          className="vtm-chip border-danger/60 bg-danger/10 text-danger hover:bg-danger/20"
         >
           ⚑ {logLabel}
         </Link>

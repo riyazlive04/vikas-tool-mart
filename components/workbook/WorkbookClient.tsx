@@ -29,8 +29,7 @@ export type WbSocial = { id: string; name: string; yesterdayCount: number | null
 
 type Tab = 'kpis' | 'tasks' | 'social' | 'notes';
 
-const textarea =
-  'w-full rounded-lg border border-neutral-800 bg-card p-3 text-sm outline-none focus:border-gold';
+const textarea = 'field resize-none';
 
 export function WorkbookClient({
   date,
@@ -77,13 +76,7 @@ export function WorkbookClient({
       {/* Tab nav */}
       <div className="flex gap-1.5">
         {tabs.map((tb) => (
-          <button
-            key={tb}
-            onClick={() => setTab(tb)}
-            className={`min-h-tap flex-1 rounded-lg py-2 text-xs font-bold ${
-              tab === tb ? 'bg-gold text-ink' : 'bg-card text-neutral-400'
-            }`}
-          >
+          <button key={tb} onClick={() => setTab(tb)} className={`tab flex-1 ${tab === tb ? 'tab-on' : 'tab-off'}`}>
             {t(`tabs.${tb}`)}
           </button>
         ))}
@@ -129,8 +122,8 @@ export function WorkbookClient({
       <button
         onClick={onSubmit}
         disabled={pending}
-        className={`min-h-tap w-full rounded-xl py-3.5 text-base font-extrabold uppercase tracking-wide text-ink transition disabled:opacity-60 ${
-          saved || submitted ? 'bg-success' : 'bg-gold'
+        className={`btn w-full py-3.5 text-base uppercase tracking-wide text-ink ${
+          saved || submitted ? 'bg-success hover:bg-success' : 'bg-gold hover:bg-gold-600'
         }`}
       >
         {saved ? '✓ ' + t('saveEntry') : submitted ? '✓ Submitted — update' : t('saveEntry')}
@@ -156,7 +149,7 @@ function KpiRow({ kpi, date }: { kpi: WbKpi; date: string }) {
   if (kpi.type === 'CHECK') {
     const on = kpi.value === 1;
     return (
-      <div className="flex items-center justify-between rounded-lg bg-card px-3.5 py-2.5">
+      <div className="flex items-center justify-between rounded-xl border border-line bg-card px-3.5 py-2.5">
         <span className="pr-2 text-sm text-neutral-200">{kpi.label}</span>
         <button
           onClick={() => save(on ? 0 : 1)}
@@ -204,8 +197,8 @@ function KpiRow({ kpi, date }: { kpi: WbKpi; date: string }) {
           if (next != null && !Number.isFinite(next)) return;
           save(next);
         }}
-        className={`w-16 rounded-lg border bg-neutral-800 px-2 py-1.5 text-center text-sm font-bold outline-none ${
-          draft !== '' ? 'border-gold' : 'border-neutral-700'
+        className={`w-16 rounded-lg border bg-elevated px-2 py-1.5 text-center text-sm font-bold text-neutral-100 outline-none transition focus:ring-2 focus:ring-gold/30 ${
+          draft !== '' ? 'border-gold' : 'border-line'
         }`}
       />
     </div>
@@ -272,10 +265,10 @@ function SocialRow({ social, date }: { social: WbSocial; date: string }) {
     });
   }
 
-  const numCls = 'w-full rounded-lg border border-neutral-700 bg-neutral-800 p-2 text-center text-sm font-bold outline-none focus:border-gold';
+  const numCls = 'field p-2 text-center font-bold';
 
   return (
-    <div className="rounded-lg bg-card p-3">
+    <div className="rounded-xl border border-line bg-card p-3">
       <div className="mb-2 text-sm font-bold text-gold">{social.name}</div>
       <div className="flex items-end gap-2">
         <label className="flex-1">

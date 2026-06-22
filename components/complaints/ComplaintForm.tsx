@@ -6,8 +6,7 @@ import { useTranslations } from 'next-intl';
 import { createComplaint, searchWooOrders } from '@/app/actions/complaints';
 
 const CATEGORIES = ['WARRANTY', 'DEFECT', 'DELIVERY', 'PRODUCT', 'OTHER'] as const;
-const inputCls =
-  'w-full rounded-lg border border-neutral-700 bg-neutral-800 px-3 py-2 text-sm outline-none focus:border-gold';
+const inputCls = 'field';
 
 export function ComplaintForm({ prefill }: { prefill: { orderRef: string; customer: string } }) {
   const t = useTranslations('complaints');

@@ -22,13 +22,7 @@ export function SyncNowButton({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className="flex items-center gap-2">
-      <button
-        onClick={onClick}
-        disabled={pending}
-        className={`min-h-tap rounded-lg bg-gold font-bold text-ink disabled:opacity-60 ${
-          compact ? 'px-3 text-xs' : 'px-4 text-sm'
-        }`}
-      >
+      <button onClick={onClick} disabled={pending} className={`btn-primary ${compact ? 'px-3 text-xs' : ''}`}>
         {pending ? t('running') : t('now')}
       </button>
       {result && !pending && (

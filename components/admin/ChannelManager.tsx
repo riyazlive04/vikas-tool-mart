@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { saveChannel, toggleActive, reorder, type CfgResult } from '@/app/actions/config';
 
 type Channel = { id: string; name: string; platform: string; handle: string | null; active: boolean };
-const inputCls = 'w-full rounded-lg border border-neutral-700 bg-neutral-800 px-2.5 py-2 text-sm outline-none focus:border-gold';
+const inputCls = 'field';
 
 export function ChannelManager({ channels }: { channels: Channel[] }) {
   const router = useRouter();

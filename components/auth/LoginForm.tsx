@@ -46,7 +46,7 @@ export function LoginForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-neutral-700 bg-neutral-800 px-3 py-2.5 text-sm outline-none focus:border-gold"
+          className="field mt-1"
         />
       </div>
       <div>
@@ -60,17 +60,13 @@ export function LoginForm() {
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-neutral-700 bg-neutral-800 px-3 py-2.5 text-sm outline-none focus:border-gold"
+          className="field mt-1"
         />
       </div>
 
       {error && <p className="text-sm font-semibold text-danger">{error}</p>}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="min-h-tap w-full rounded-xl bg-gold py-3 text-base font-extrabold uppercase tracking-wide text-ink transition disabled:opacity-60"
-      >
+      <button type="submit" disabled={loading} className="btn-primary w-full py-3 text-base uppercase tracking-wide">
         {loading ? t('signIn') + '…' : t('signInCta')}
       </button>
     </form>

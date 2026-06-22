@@ -24,14 +24,11 @@ export function DateNav({ date, today }: { date: string; today: string }) {
         value={date}
         max={today}
         onChange={(e) => go(e.target.value)}
-        className="min-h-tap rounded-lg border border-neutral-700 bg-neutral-800 px-3 text-sm font-semibold outline-none focus:border-gold"
+        className="field w-auto font-semibold"
       />
       <span className="text-xs font-semibold text-muted">{dayName}</span>
       {date !== today && (
-        <button
-          onClick={() => go(today)}
-          className="min-h-tap rounded-lg bg-neutral-700 px-3 text-xs font-bold"
-        >
+        <button onClick={() => go(today)} className="btn-secondary px-3 text-xs">
           Today
         </button>
       )}

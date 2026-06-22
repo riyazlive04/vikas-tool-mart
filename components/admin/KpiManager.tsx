@@ -22,7 +22,7 @@ const SOURCES = [
   'DERIVED_COMPLAINTS_LOGGED', 'DERIVED_COMPLAINTS_ASSIGNED',
   'WORKLIST_CONTACTED', 'WORKLIST_REVIEW_REQ', 'WORKLIST_UNBOXING_REQ', 'WORKLIST_TESTIMONIAL_REQ',
 ];
-const inputCls = 'w-full rounded-lg border border-neutral-700 bg-neutral-800 px-2.5 py-2 text-sm outline-none focus:border-gold';
+const inputCls = 'field';
 const empty = { key: '', label: '', labelTa: '', type: 'COUNT' as Kpi['type'], target: '', autoSource: '', unit: '' };
 
 export function KpiManager({ kpis }: { kpis: Kpi[] }) {

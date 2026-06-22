@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Vikas Tool Mart — CROS',
   description: 'Customer & Reputation Operations System',
   manifest: '/manifest.webmanifest',
-  icons: { icon: '/icon.svg', apple: '/icon.svg' },
+  icons: { icon: '/logo.png', apple: '/logo.png', shortcut: '/logo.png' },
 };
 
 export const viewport: Viewport = {
@@ -32,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={inter.className}>
-      <body className="bg-ink text-white antialiased">
+      <body className="bg-ink antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>

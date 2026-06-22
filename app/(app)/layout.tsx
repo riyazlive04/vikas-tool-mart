@@ -14,11 +14,15 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <div className="mx-auto min-h-screen max-w-phone bg-ink lg:max-w-3xl">
       <header className="sticky top-0 z-20 bg-gold">
         <div className="flex items-center justify-between px-4 pt-3">
-          <div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-ink">
-              {tb('company')}
+          <div className="flex items-center gap-2.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="" className="h-8 w-8 shrink-0 rounded-md" />
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-ink">
+                {tb('company')}
+              </div>
+              <div className="text-base font-extrabold leading-tight text-ink">{tb('app')}</div>
             </div>
-            <div className="text-base font-extrabold leading-tight text-ink">{tb('app')}</div>
           </div>
           <div className="flex items-center gap-2">
             <LocaleSwitcher />

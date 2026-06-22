@@ -9,21 +9,38 @@
 html,
 body {
   background: #1a1a1a;
-  color: #fff;
+  /* Off-white (not pure white) reduces glare on dark — dark-mode best practice. */
+  color: #e8e8e8;
 }
 
-/* Mobile-first: app shell centers to a phone width, expands on desktop. */
 html {
-  /* Never allow accidental horizontal scrolling of the whole page on phones. */
   overflow-x: hidden;
 }
+
 body {
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Hide the scrollbar on horizontally-scrolling strips (e.g. the nav tabs)
-   while keeping them swipeable on touch. */
+/* Visible, on-brand focus ring for keyboard users (a11y). */
+*:focus-visible {
+  outline: 2px solid rgba(245, 196, 0, 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Tap targets stay swipe/tap friendly. */
+button,
+[role='button'],
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+/* Hide scrollbars on horizontally-scrolling strips (nav tabs) — still swipeable. */
 .scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -32,21 +49,66 @@ body {
   display: none;
 }
 
-/* Ensure tap targets meet the 40px minimum (PRD §11.4). */
-button,
-[role='button'],
-input[type='checkbox'] {
-  touch-action: manipulation;
-}
-
 @layer components {
+  /* ── Surfaces ── */
   .vtm-card {
-    @apply bg-card rounded-xl p-4;
+    @apply rounded-2xl border border-line bg-card p-4 shadow-card;
   }
-  .vtm-chip {
-    @apply min-h-tap min-w-tap inline-flex items-center justify-center rounded-lg px-3 text-sm font-semibold;
+  .vtm-card-hover {
+    @apply transition hover:border-gold/40 hover:shadow-pop;
   }
+
+  /* ── Typography helpers ── */
   .vtm-label {
-    @apply text-gold text-xs font-bold uppercase tracking-wide;
+    @apply text-[11px] font-bold uppercase tracking-wider text-gold;
+  }
+  .vtm-h1 {
+    @apply text-lg font-extrabold text-neutral-50;
+  }
+  .vtm-sub {
+    @apply text-xs text-muted;
+  }
+
+  /* ── Form fields (inputs / selects / textareas) ── */
+  .field {
+    @apply w-full rounded-lg border border-line bg-elevated px-3 py-2.5 text-sm text-neutral-100 outline-none transition placeholder:text-neutral-500 focus:border-gold focus:ring-2 focus:ring-gold/30;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    @apply inline-flex min-h-tap items-center justify-center gap-1.5 rounded-xl px-4 text-sm font-bold transition disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-gold text-ink hover:bg-gold-600 active:bg-gold-700;
+  }
+  .btn-secondary {
+    @apply btn border border-line bg-elevated text-neutral-100 hover:bg-neutral-700;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-neutral-300 hover:bg-white/5;
+  }
+  .btn-danger {
+    @apply btn bg-danger/15 text-danger hover:bg-danger/25;
+  }
+
+  /* ── Tabs / pills ── */
+  .tab {
+    @apply min-h-tap whitespace-nowrap rounded-xl px-3.5 py-2 text-xs font-bold transition;
+  }
+  .tab-on {
+    @apply bg-gold text-ink shadow-gold-glow;
+  }
+  .tab-off {
+    @apply bg-card text-neutral-400 hover:bg-elevated hover:text-neutral-200;
+  }
+
+  /* ── Chips (worklist actions) ── */
+  .vtm-chip {
+    @apply inline-flex min-h-tap items-center justify-center gap-1 rounded-full border px-3.5 text-sm font-semibold transition;
+  }
+
+  /* ── Badges (source tags, status) ── */
+  .badge {
+    @apply inline-flex items-center rounded-md px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide;
   }
 }

@@ -15,12 +15,12 @@ export function MetricCard({
 }) {
   const color = accent === 'success' ? 'text-success' : accent === 'danger' ? 'text-danger' : 'text-gold';
   return (
-    <div className="vtm-card">
-      <div className="flex items-center justify-between">
-        <span className="text-[11px] text-muted">{label}</span>
+    <div className="vtm-card vtm-card-hover">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[11px] font-medium uppercase tracking-wide text-muted">{label}</span>
         <SourceTag source={source} />
       </div>
-      <div className={`mt-1 text-2xl font-extrabold ${color}`}>
+      <div className={`mt-1.5 text-[28px] font-extrabold leading-none tracking-tight ${color}`}>
         {value == null ? '—' : value.toLocaleString('en-IN')}
         {value != null && suffix ? <span className="text-sm font-bold text-muted"> {suffix}</span> : null}
       </div>

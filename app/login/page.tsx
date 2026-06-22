@@ -7,6 +7,8 @@ export default async function LoginPage() {
   return (
     <main className="mx-auto flex min-h-screen max-w-phone flex-col justify-center px-6">
       <div className="mb-8 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo.png" alt="Vikas Tool Mart" className="mx-auto mb-3 h-14 w-14 rounded-xl" />
         <div className="inline-block rounded-xl bg-gold px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-ink">
           {tb('company')}
         </div>

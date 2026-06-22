@@ -21,8 +21,7 @@ type Row = {
 };
 
 const ROLES = ['ADMIN', 'HEAD', 'CRE'] as const;
-const inputCls =
-  'w-full rounded-lg border border-neutral-700 bg-neutral-800 px-3 py-2 text-sm outline-none focus:border-gold';
+const inputCls = 'field';
 
 export function UserManager({ users, currentUserId }: { users: Row[]; currentUserId: string }) {
   const router = useRouter();
